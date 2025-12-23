@@ -4,6 +4,7 @@ import { HTMLAttributes } from "react";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Link, LinkProps } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 
 type TRoute = {
   label: string;
@@ -18,13 +19,13 @@ const Routes: TRoute[] = [
 ];
 
 const SideNav = ({ href, children }: LinkProps & HTMLAttributes<HTMLAnchorElement>) => {
-  const pathName = "";
+  const location = useLocation();
 
   return (
     <Link to={href}>
       <Button
         className={`w-full cursor-pointer h-10 hover:bg-[#08111a] hover:text-white text-md capitalize ${
-          pathName === href ? "bg-[#08111a]" : "text-white/50"
+          location.pathname === href ? "bg-[#08111a]" : "text-white/50"
         }`}
         variant={"ghost"}
       >
