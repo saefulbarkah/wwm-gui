@@ -2,9 +2,11 @@ use futures_util::lock::Mutex;
 use ini::Ini;
 use std::fs;
 use std::sync::Arc;
+use tauri::menu::{Menu, MenuItem}; // WAJIB ADA
+use tauri::tray::TrayIconBuilder;
 use tauri::{AppHandle, Emitter, Manager, State};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::TcpListener; // Pastikan ini ada di paling atas
+use tokio::net::TcpListener; // Pastikan ini ada di paling atas // WAJIB ADA
 
 use serde::{Deserialize, Serialize};
 
@@ -231,6 +233,13 @@ pub fn run() {
     let socket_for_server = shared_socket.clone();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            let _ = app
+                .get_webview_window("main")
+                .expect("no main window")
+                .set_focus();
+        }))
+        .plugin(tauri_plugin_prevent_default::init())
         .manage(ConnectionState {
             lua_socket: shared_socket,
         })
@@ -240,6 +249,22 @@ pub fn run() {
             load_config
         ])
         .setup(move |app| {
+            let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+            let menu = Menu::with_items(app, &[&quit_i])?;
+            let _tray = TrayIconBuilder::new()
+                // Tambahkan tipe data eksplisit &AppHandle pada parameter hndl
+                .on_menu_event(|hndl: &tauri::AppHandle, event| match event.id.as_ref() {
+                    "quit" => {
+                        println!("Quit diklik");
+                        hndl.exit(0);
+                    }
+                    _ => {}
+                })
+                .menu(&menu)
+                .show_menu_on_left_click(true)
+                .icon(app.default_window_icon().unwrap().clone())
+                .build(app)?;
+
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(start_tcp_server(handle, socket_for_server));
             Ok(())
