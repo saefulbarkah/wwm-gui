@@ -14,4 +14,4 @@ export const CUSTOM_BUFFS: Buff[] = [
   { key: "IMMUNE_CONTROL", id: 30005, desc: "Immune to Control" },
   { key: "RESURRECT_VIP", id: 70138, desc: "Resurrect Lv3 (VIP)" },
   { key: "SUPER_VIP2", id: 109041, desc: "SUPER 2 ?? (VIP)" },
-];
+] as const;

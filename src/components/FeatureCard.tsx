@@ -10,7 +10,7 @@ type TFeatureCard = React.ComponentProps<"div"> & {
   title?: string;
   description?: string;
   onSwitch?: React.MouseEventHandler<HTMLButtonElement>;
-  defaultCheck?: boolean;
+  checked?: boolean;
   warningInfo?: React.ReactNode;
   Info?: React.ReactNode;
   disabled?: boolean;
@@ -20,7 +20,7 @@ type TFeatureCard = React.ComponentProps<"div"> & {
 export const FeatureCardSwitch = ({
   title,
   description,
-  defaultCheck = false,
+  checked = false,
   onSwitch,
   children,
   warningInfo,
@@ -64,7 +64,7 @@ export const FeatureCardSwitch = ({
             <Switch
               disabled={disabled}
               onClick={onSwitch}
-              checked={disabled ? false : defaultCheck}
+              checked={disabled ? false : (checked as boolean)}
               variant={"destructive"}
             />
           ) : null}
