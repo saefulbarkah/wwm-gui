@@ -2,12 +2,28 @@ import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import react from "@vitejs/plugin-react";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 const host = process.env.TAURI_DEV_HOST;
 
+const ViteImageOptimizer_OPTIONS = {
+  png: {
+    quality: 100,
+  },
+};
+
 // https://vite.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    ViteImageOptimizer(ViteImageOptimizer_OPTIONS),
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+    }),
+    react(),
+    tailwindcss(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
