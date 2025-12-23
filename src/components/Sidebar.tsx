@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Link, LinkProps } from "@tanstack/react-router";
 import { useLocation } from "@tanstack/react-router";
-import { getConnectionStatus, useFeatureManagerStore } from "@/hooks/useFeature";
+import { useFeatureManagerStore } from "@/hooks/useFeature";
 
 type TRoute = {
   label: string;
