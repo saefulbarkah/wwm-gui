@@ -3,6 +3,9 @@ import { INITIAL_FEATURE_STATE } from "@/const/features";
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import { TFeatures } from "@/types/feature";
+import { useEffect } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import { useSocket } from "./useSocket";
 
 export type TFeature = TFeatures;
 
@@ -48,7 +51,13 @@ export const useFeatureManagerStore = create<TFeatureState>()((set) => ({
     })),
 }));
 
+export const getConnectionStatus = () => {
+  const state = useFeatureManagerStore((state) => state.NetworkStatus);
+  return state;
+};
+
 export const useFeatureManager = () => {
+  const socket = useSocket();
   const {
     feature,
     OnUpdateFeature: updateFeature,
@@ -63,11 +72,24 @@ export const useFeatureManager = () => {
     const data = updateFeature(key, value);
     try {
       if (!data) return toast.error("Invalid update feature");
+      const latestFeature = useFeatureManagerStore.getState().feature;
+      await invoke("save_config", { config: latestFeature });
+      socket.SendMessage(JSON.stringify(latestFeature));
     } catch (error) {
       console.log(error);
       toast.error(`Failed to update setting`);
     }
   };
+
+  useEffect(() => {
+    invoke<TFeatures>("load_config")
+      .then((savedConfig) => {
+        setFeature(savedConfig);
+        console.log(savedConfig);
+        socket.SendMessage(JSON.stringify(savedConfig));
+      })
+      .catch(console.error);
+  }, []);
 
   return {
     OnUpdateFeature,
@@ -77,5 +99,6 @@ export const useFeatureManager = () => {
     SetFeatureReady,
     NetworkStatus,
     SetNetworkStatus,
+    socket,
   };
 };
