@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Link, LinkProps } from "@tanstack/react-router";
 import { useLocation } from "@tanstack/react-router";
-import { getConnectionStatus } from "@/hooks/useFeature";
+import { getConnectionStatus, useFeatureManagerStore } from "@/hooks/useFeature";
 
 type TRoute = {
   label: string;
@@ -37,7 +37,7 @@ const SideNav = ({ href, children }: LinkProps & HTMLAttributes<HTMLAnchorElemen
 };
 
 function Sidebar() {
-  const NetworkStatus = getConnectionStatus();
+  const NetworkStatus = useFeatureManagerStore((state) => state.NetworkStatus);
 
   return (
     <aside className="fixed left-0 top-18 h-[calc(100vh-72px)] w-56 border-r border-r-slate-400/15 overflow-hidden select-none bg-background">

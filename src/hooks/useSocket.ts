@@ -21,7 +21,6 @@ export const useSocket = () => {
 export const useSocketRender = () => {
   const { SetNetworkStatus } = useFeatureManager();
   const { SendMessage } = useSocket();
-  const feature = useFeatureManagerStore((state) => state.feature);
   useEffect(() => {
     let unlistenMsg: UnlistenFn;
     let unlistenStatus: UnlistenFn;
@@ -31,7 +30,8 @@ export const useSocketRender = () => {
         try {
           const data = JSON.parse(event.payload);
           if (data.key === "REQUEST_DATA") {
-            SendMessage(JSON.stringify(feature));
+            const latestFeature = useFeatureManagerStore.getState().feature;
+            SendMessage(JSON.stringify(latestFeature));
           }
         } catch {
           // console.log("Bukan JSON:", event.payload);
