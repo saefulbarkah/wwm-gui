@@ -1,3 +1,9 @@
+import { Button } from "./components/ui/button";
+
 export const App = () => {
-  return <div className="bg-red-500">App</div>;
+  return (
+    <div>
+      <Button />
+    </div>
+  );
 };
