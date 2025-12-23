@@ -14,6 +14,7 @@ export const INITIAL_FEATURE_STATE = {
   DAMAGE_UP: false,
   DEFENSE_UP: false,
   INVINCIBLE: false,
+  INVISIBLE: false,
   DUMB_ENEMIES: false,
   BLOCK_SHIELD: false,
   IMMUNE_CONTROL: false,

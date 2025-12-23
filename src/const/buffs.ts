@@ -9,6 +9,7 @@ export const CUSTOM_BUFFS: Buff[] = [
   { key: "DAMAGE_UP", id: 30302, desc: "Increase Damage" },
   { key: "DEFENSE_UP", id: 30303, desc: "Increase Defense" },
   { key: "INVINCIBLE", id: 30372, desc: "Reduce True Damage 90%" },
+  { key: "INVISIBLE", id: 108010, desc: "Invisible Mode" },
   { key: "DUMB_ENEMIES", id: 380013, desc: "Enemies ignore to attack" },
   { key: "BLOCK_SHIELD", id: 30366, desc: "Immune to 3 hits" },
   { key: "IMMUNE_CONTROL", id: 30005, desc: "Immune to Control" },
