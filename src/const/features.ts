@@ -8,6 +8,7 @@ export const INITIAL_FEATURE_STATE = {
   KillAura: false,
   AutoLoot: false,
   MultiplyDamage: false,
+  AutoLootTreasure: false,
   MultiDamageValue: 0,
   ENHANCE: false,
   DAMAGE_UP: false,

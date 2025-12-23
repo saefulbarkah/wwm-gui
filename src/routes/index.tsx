@@ -74,6 +74,13 @@ function Index() {
           />
 
           <FeatureCardSwitch
+            title={"Auto Pick Treasure"}
+            description={"Auto pick all trasures."}
+            checked={feature.AutoLootTreasure as boolean}
+            onSwitch={() => OnUpdateFeature("AutoLootTreasure")}
+          />
+
+          <FeatureCardSwitch
             title={"Multiply Damage"}
             description={"Boost your offensive power by a specific multiplier factor."}
             checked={feature.MultiplyDamage as boolean}
