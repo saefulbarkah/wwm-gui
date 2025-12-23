@@ -2,6 +2,36 @@
 import { useWindowEvent } from "@/hooks/useWindowEvent";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { useState } from "react";
+import { useSocket } from "@/hooks/useSocket";
+import { useFeatureManager } from "@/hooks/useFeature";
+import toast from "react-hot-toast";
+
+const SyncFeature = () => {
+  const [sync, setSync] = useState(false);
+  const { feature } = useFeatureManager();
+  const { SendMessage } = useSocket();
+
+  const handleSync = async () => {
+    try {
+      await SendMessage(JSON.stringify(feature));
+      toast.success("Data synced successfully");
+    } catch (error) {
+      toast.error("Unable to sync data");
+    } finally {
+      setSync(false);
+    }
+  };
+
+  return (
+    <div className="mr-5">
+      <Button onClick={handleSync} disabled={sync}>
+        Sync
+      </Button>
+    </div>
+  );
+};
+
 export const Navbar = () => {
   const { appWindow, ref } = useWindowEvent();
 
@@ -15,6 +45,7 @@ export const Navbar = () => {
         <div className={`flex-1 h-full hover:cursor-grab`} ref={ref} />
         <div className="flex items-center gap-5">
           <div className="flex items-center justify-center gap-2 drag">
+            <SyncFeature />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

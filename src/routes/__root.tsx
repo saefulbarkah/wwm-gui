@@ -4,11 +4,13 @@ import Sidebar from "@/components/Sidebar";
 import { useSocketRender } from "@/hooks/useSocket";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { Toaster } from "react-hot-toast";
 
 const RootLayout = () => {
   useSocketRender(); // render socket
   return (
     <>
+      <Toaster />
       <div className="antialiased bg-background text-white min-h-screen font-sans">
         <div className="relative z-10">
           <Navbar />

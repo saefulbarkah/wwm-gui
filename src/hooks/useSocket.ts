@@ -9,6 +9,7 @@ export const useSocket = () => {
       await invoke("send_to_game", { message: msg });
     } catch (error) {
       console.error("Failed send to game:", error);
+      throw error;
     }
   };
 
