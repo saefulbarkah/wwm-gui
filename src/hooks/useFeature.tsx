@@ -76,7 +76,7 @@ export const useFeatureManager = () => {
       await invoke("save_config", { config: latestFeature });
       socket.SendMessage(JSON.stringify(latestFeature));
     } catch (error) {
-      console.log(error);
+      // console.error(error);
       toast.error(`Failed to update setting`);
     }
   };
@@ -85,7 +85,6 @@ export const useFeatureManager = () => {
     invoke<TFeatures>("load_config")
       .then((savedConfig) => {
         setFeature(savedConfig);
-        console.log(savedConfig);
         socket.SendMessage(JSON.stringify(savedConfig));
       })
       .catch(console.error);
